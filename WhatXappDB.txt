@@ -1,0 +1,32 @@
+drop database whatsappapp;
+CREATE DATABASE whatsappApp;
+
+USE whatsappApp;
+
+-- Tabla de usuarios
+CREATE TABLE usuarios (
+    idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15) UNIQUE NOT NULL,
+    contraseña varchar(50) not null
+);
+
+-- Tabla de sesiones
+CREATE TABLE sesiones (
+    idSesion INT AUTO_INCREMENT PRIMARY KEY,
+    idUsuario INT NOT NULL,
+    fechaUltimaConexion DATETIME NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES usuarios(idUsuario)
+);
+
+-- Tabla de mensajes
+CREATE TABLE mensajes (
+    idMensaje INT AUTO_INCREMENT PRIMARY KEY,
+    idRemitente INT NOT NULL,
+    idDestinatario INT NOT NULL,
+    mensaje TEXT NOT NULL,
+    fechaEnvio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    leido BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (idRemitente) REFERENCES usuarios(idUsuario),
+    FOREIGN KEY (idDestinatario) REFERENCES usuarios(idUsuario)
+);
