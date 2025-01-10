@@ -100,7 +100,7 @@ public class UsuarioDAO {
     }
 
     // Eliminar un usuario por ID
-    public void eliminarUsuario(int id) {
+    public boolean eliminarUsuario(int id) {
         String query = "DELETE FROM usuarios WHERE idUsuario = ?";
 
         try (Connection conn = dbConfig.getConnection();
@@ -109,9 +109,37 @@ public class UsuarioDAO {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
             System.out.println("Usuario eliminado exitosamente.");
-
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
+
+    // Modificar un usuario por ID
+    public boolean modificarUsuario(Usuario usuario) {
+        String query = "UPDATE usuarios SET nombre = ?, telefono = ?, contraseña = ? WHERE idUsuario = ?";
+        boolean modificado = false;
+
+        try (Connection conn = dbConfig.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Establecer los parámetros de la consulta
+            pstmt.setString(1, usuario.getNombre());
+            pstmt.setString(2, usuario.getTelefono());
+            pstmt.setString(3, usuario.getContraseña());
+            pstmt.setInt(4, usuario.getId());
+
+            // Ejecutar la actualización
+            int filasAfectadas = pstmt.executeUpdate();
+            if (filasAfectadas > 0) {
+                modificado = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return modificado;
+    }
+
 }

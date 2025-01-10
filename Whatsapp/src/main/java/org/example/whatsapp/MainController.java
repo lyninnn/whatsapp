@@ -6,9 +6,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.whatsapp.modeldaos.UsuarioDAO;
 import org.example.whatsapp.models.Usuario;
-
+import org.example.whatsapp.utilidades.UsuarioActual;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.io.IOException;
 
 public class MainController {
 
@@ -40,8 +42,27 @@ public class MainController {
 
         if (usuario != null) {
             mostrarAlerta("Éxito", "Inicio de sesión exitoso. Bienvenido, " + usuario.getNombre() + "!");
+            UsuarioActual.setUsuario(usuario);
+            redirigirAInicio();
         } else {
             mostrarAlerta("Error", "Usuario o contraseña incorrectos.");
+        }
+    }
+
+    private void redirigirAInicio() {
+        try {
+            // Cargar la vista de inicio
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("inicio.fxml"));
+            Parent root = loader.load();
+
+            // Obtener la escena actual y cambiarla
+            Stage stage = (Stage) btnLogin.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo cargar la página de inicio.");
         }
     }
 
