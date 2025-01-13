@@ -54,10 +54,9 @@ public class UsuarioCon {
         }
 
         // Crear un nuevo usuario
-        Usuario usuario = new Usuario(nombreUsuario, telefono,password);
 
         // Registrar el usuario en la base de datos
-        boolean registroExitoso = usuarioDAO.agregarUsuario(usuario);
+        boolean registroExitoso = usuarioDAO.agregarUsuario(nombreUsuario,telefono,confirmPassword);
 
         if (registroExitoso) {
             mostrarAlerta("Éxito", "Usuario registrado exitosamente.");

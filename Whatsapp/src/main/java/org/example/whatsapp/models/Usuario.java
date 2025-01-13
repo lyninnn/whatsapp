@@ -11,7 +11,8 @@ public class Usuario {
     }
 
     // Constructor con parámetros
-    public Usuario(String nombre, String telefono,String contrasenia) {
+    public Usuario(int id,String nombre, String telefono,String contrasenia) {
+        this.id=id;
         this.nombre = nombre;
         this.telefono = telefono;
         this.contrasenia = contrasenia;
@@ -53,11 +54,7 @@ public class Usuario {
     // Método para imprimir los detalles del usuario (opcional)
     @Override
     public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", telefono='" + telefono + '\''  +
-                ", contraseña='" + contrasenia + '\''  +
-                '}';
+        return nombre + '\'' +
+           telefono + '\'' ;
     }
 }

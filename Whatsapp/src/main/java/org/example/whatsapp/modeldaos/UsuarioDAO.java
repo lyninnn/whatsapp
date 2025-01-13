@@ -10,15 +10,15 @@ import java.util.List;
 public class UsuarioDAO {
 
     // Agregar un nuevo usuario
-    public boolean agregarUsuario(Usuario usuario) {
+    public boolean agregarUsuario(String nombre,String telefono,String contraseña) {
         String query = "INSERT INTO usuarios (nombre, telefono,contraseña) VALUES (?, ?,?)";
 
         try (Connection conn = dbConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setString(1, usuario.getNombre());
-            pstmt.setString(2, usuario.getTelefono());
-            pstmt.setString(3,usuario.getContraseña());
+            pstmt.setString(1, nombre);
+            pstmt.setString(2, telefono);
+            pstmt.setString(3,contraseña);
             pstmt.executeUpdate();
             System.out.println("Usuario agregado exitosamente.");
             return true;
@@ -37,6 +37,7 @@ public class UsuarioDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new Usuario(
+                            rs.getInt("idUsuario"),
                             rs.getString("nombre"),
                             rs.getString("telefono"),
                             rs.getString("contraseña")
@@ -61,6 +62,7 @@ public class UsuarioDAO {
 
             while (rs.next()) {
                 Usuario usuario = new Usuario(
+                        rs.getInt("idUsuario"),
                         rs.getString("nombre"),
                         rs.getString("telefono"),
                         rs.getString("contraseña")
@@ -87,6 +89,7 @@ public class UsuarioDAO {
 
             if (rs.next()) {
                 usuario = new Usuario(
+                        rs.getInt("idUsuario"),
                         rs.getString("nombre"),
                         rs.getString("telefono"),
                         rs.getString("contraseña")
